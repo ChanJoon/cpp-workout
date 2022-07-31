@@ -30,5 +30,5 @@
 >	###### freopen클래스는 C라이브러리에선 <stdio.h> 로 사용되었으나 C++에선 iostream으로 대체
 >	###### stdio.h는 global namespace를 사용, cstdio는 std라는 namespace를 사용
 >
->	###### <iostream>는 객체에 %를 사용하지 않아서, 더 안전하다. 더 자세한 내용은 아래 링크에 나와있다.
+>	###### \<iostream\>는 객체에 %를 사용하지 않아서, 더 안전하다. 더 자세한 내용은 아래 링크에 나와있다.
 > > <a> https://isocpp.org/wiki/faq/input-output#iostream-vs-stdio
