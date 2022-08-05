@@ -60,6 +60,20 @@ int main()
 }
  */
  
+/*  
+ getline() 은 사용자의 Enter 입력도 \0으로 받아들인다.
+ get()은 문자만 받으므로 개행이 되지 않는다.
+ cin.get(name, ArSize);
+ cin.get();
+ cin.get(dessert, Arsize); //이렇게 해야 첫 줄을 읽은 후 건너뛰고 다음 줄을 읽음.
+ 
+ 따라서 cin.get(name, Arsize).get(); 와 같이 사용
+ 물론, cin.getline(name1,ArSize).getline(name2, ArSize); 이렇게 한 줄로 여러 배열에서 읽기 가능
+ get()을 사용하는 이유는, error를 확인하기 더 쉽기 때문이다.
+ 다 입력되지 않고 배열이 찬 것인지 혹은 엔터키를 입력한 것인지 다음 get()에 들어온 chararcter를 확인하여 구분할 수 있다.
+  */
+ 
+ 
 /*  // instr3. cpp
  #include <iostream>
  int main()
@@ -115,7 +129,8 @@ int main()
  
  // Other Forms of String Literals
 /* 
-	wchart_t title[] = L"Chief Astrogator"; // w_chart string
+	wchart_t title[] = L"Chief Astrogator"; // w_chart string -> Unicode
+	참고: https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=ruvendix&logNo=220829609686
 	char16_t name[] = u"Felonia Ripova"; // char_16 string
 	char32_5 car[] = U"Humber Super Snipe"; // char_32 string
 */ 
@@ -235,3 +250,75 @@ int main()
 	} position;		// a structure variable -> position.x, position.y
 */
    // pg.147
+/*    
+  // arrstruc.cpp
+  #include <iostream>
+  struct inflatable
+  {
+	  char name[20];
+	  float volume;
+	  double price;
+  };
+  int main() 
+  {
+	  using namespace std;
+	  inflatable guests[2] =
+	  {
+		  {"Bambi", 0.5, 21.99},
+		  {"Godzilla", 2000, 565.99}
+	  };
+	  
+	  cout << guests[0].name << " and " << guests[1].name
+	  << "\nhave a combined volume of "
+	  << guests[0].volume + guests[1].volume;
+	  
+	  return 0;
+  }
+   */
+/*    
+   // Bit Fields in Structures
+   struct torgle_register
+   {
+	   unsigned int SN : 4; // 4 bits
+	   unsigned int : 4; // 4 bits unused
+	   bool goodIn : 1;
+	   bool goodTorgle : 1;
+   }
+   torgle_register tr = {14, true, false};
+   
+   if (tr.goodIn) // true
+   */
+/*    
+   Unions
+   union is a data format that can hold different data types
+   
+   Enumerations
+   enum provides an alternative to const for creating symbolic constants
+    */
+/* 
+// Pointer Example
+
+#include <iostream>
+using namespace std;
+
+int get_line_parameter (int x1, int y1, int x2, int y2, double *slope, double *yintercept)
+{
+	if (x1 == x2) return -1;
+	else
+	{
+		*slope = (double)(y2-y1) / (double) (x2-x1);
+		*yintercept = y1 - (*slope) *x1;
+		return 0;
+	}
+}
+int main(void)
+{
+	double s, y;
+	if( get_line_parameter(3, 3, 6, 6, &s, &y) == -1) cout << "Error";
+	else cout << "Slope : " << s << "\ny intercept : " << y;
+	
+	return 0;
+}
+ */
+ 
+ 
