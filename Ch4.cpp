@@ -320,5 +320,203 @@ int main(void)
 	return 0;
 }
  */
+ // 160pg
+/*  
+ To Allocate memory, Use the library function, malloc() in C
+ in C++, Use the new operator.
  
+ int * pn = new int;
+ -> there is no name which pn points to; data object
  
+ typeName * pointer_name = new typeName;
+  */
+/*   
+ // use_new.cpp
+ #include <iostream>
+ int main()
+ {
+	 using namespace std;
+	 int nights = 1001;
+	 int * pt = new int;		// allocate space for an int
+	 *pt = 1001;					// store a value there
+	 
+	 cout << "nights value = ";
+	 cout << nights << " : location " << &nights << endl;
+	 cout << "int ";
+	 cout << "value = " << *pt << " : location = " << pt << endl;
+	 
+	 double * pd = new double;		// allocate space for a double
+	 *pd = 1000001.0;
+	 
+	 cout << "double ";
+	 cout << "value = " << *pd << " : location = " << pd << endl;
+	 cout << "location of pointer pd: " << &pd << endl;
+	 
+	 cout << "size of pt = " << sizeof(pt);							// size of pt = 4
+	 cout << " : size of *pt = " << sizeof(*pt) << endl;		// size of *pt = 4
+	 
+	 cout << "size of pd = " << sizeof pd;						// size of pd = 4
+	 cout << ": size of *pd = " << sizeof(*pd) << endl;		// size of *pd = 8
+	 
+	 return 0;
+ }
+  */
+/*   
+  the size of a pointer-to-int is the same as the size of a pointer-to-double; Both are just addresses.
+  
+  new uses a different block of memory than do the ordinary variable definitions that we have been using.
+  values stored in a memory region called the stack, whereas the memory allowcated by new is in a region called the heap or free store.
+  
+  the delete operator, enables to return memory to the memory pool when finished to use it. (Only used when declared by new)
+  
+  Using new to Create Dynamic Arrays
+  Allocating the array during compile time is called static binding.
+  dynamic binding; create an array during runtime / select an array size after the program is running.
+  dynamic array; the array is created while the program is running.
+   */ //164pg
+/*    
+   //arraynew.cpp
+   #include <iostream>
+   int main()
+   {
+	   using namespace std;
+	   double * p3 = new double [3];		// space for 3 doubles. a block of 3 doubles.
+	   p3[0] = 0.2;
+	   p3[1] = 0.5;
+	   p3[2] = 0.8;
+	   
+	   cout << "p3[1] is " << p3[1] << ".\n";
+	   
+	   p3 = p3 + 1;											
+	   cout << "Now p3[0] is " << p3[0] << " and ";
+	   cout << "p3[1] is " << p3[1] << ".\n" ;
+	   p3 = p3 - 1;
+	   
+	   delete [] p3;
+	   
+	   return 0;
+   }
+    */
+/* 	
+// Listing 4.19 addpntrs.cpp
+#include <iostream>
+int main()
+{
+	using namespace std;
+	double wages[3] = {10000.0, 20000.0, 30000.0};
+	short stacks[3] = {3, 2, 1};
+	
+	// two ways to get the address of an array
+	double * pw = wages;		// name of an array = address
+	// the adress of the first element of the wages array; wages = &wages[0]
+	short * ps = &stacks[0];	// use address operator
+	//이러면 stacks array에 들어간 index 0 의 value의 주소인건가?
+	
+	cout << "pw = " << pw << ", *pw = " << *pw << endl;
+	pw = pw + 1;		// type double, pw changes its value by 8
+	cout << "add 1 to the pw pointer:\n";
+	cout << "pw = " << pw << ", *pw = " << *pw << "\n\n";
+	
+	cout << "ps = " << ps << ", *ps = " << *ps << endl;				// Expected: ps = 3
+	ps = ps + 1;		// type short, ps changes its value by 2
+	cout << "add 1 to the ps pointer:\n";
+	cout << "ps = " << ps << ", *ps = " << *ps << "\n\n";		// Expected; ps = 2
+	
+	cout << "access two elements with array notation\n";
+	cout << "stacks[0] = " << stacks[0]
+	<< ", stacks[1] = " << stacks[1] << endl;					// C++ compiler treats this as *(stacks+1)
+	cout << "access two elements with pointer notation\n";
+	cout << "*stacks = " << *stacks
+	<< ", *(stacks+1) = " << *(stacks+1) << endl;
+
+	cout << sizeof(wages) << " = size of wages array\n";
+	cout << sizeof(pw) << " = size of pw pointer\n";
+	
+	return 0;
+}
+ */
+ /* 
+ The Address of an Array
+ ex)
+ short tell[10];
+ tell = &tell[0]
+ &tell = address of whole array
+ 
+ ex)
+ short (*pas)[20] = &tell; // pas points to array of 20 shorts
+ 
+ ex)
+ int tacos[10] = {5,2,8,4,1,2,2,4,6,8};
+ int *pt = tacos;				// let address of tacos[0] = 3000
+ pt = pt + 1;						// now pt is 3004 (if int is 4 bytes)
+ int *pe = &tacos[9];		// *pe = 8 / pe = 3036
+ pe = pe - 1;						// pe = 3032 => *pe = 6
+ int diff = pe - pt;			// diff = 7; (3032 - 3004) / 4bytes
+ 
+ ex)
+ int * pt = new int [10];	// pt points to block of 10 ints; dynamic array
+ *pt = 5;								// element number 0 to 5
+ pt[0] = 6;								// reset element number 0 to 6; *pt = pt[0]
+ pt[9] = 44;
+ int coats[10];
+ *(coats + 4) = 12;				// set coats[4] = 12
+  */
+/*   
+  //Listing 4.20 ptrstr.cpp
+  #include <iostream>
+  #include <cstring>
+  int main()
+  {
+	  using namespace std;
+	  char animal[20] = "bear";
+	  const char * bird = "wren";		// bird holds address of string
+	  char * ps;										// uninitialized
+	  
+	  cout << animal << " and ";
+	  cout << bird << "\n";
+	  // cout << ps;
+	  
+	  cout << "Enter a kind of animal: ";
+	  cin >> animal;								// ok if input < 20 chars
+	  // cin >> ps; 									// ps doesn't point to allocated space
+	  
+	  ps = animal;									// ps to point to string
+	  cout << ps << "!\n";					// Expcted: ps = animal[0] = b
+	  cout << "Before using strcpy():\n";
+	  cout << animal << " at " << (int *) animal << endl;
+	  cout << ps << " at " << (int *) ps << endl;		// Expected: the address of ps is not same as the address of animal
+	  
+	  ps = new char[strlen(animal) + 1]; // get new storage
+	  strcpy(ps, animal); 							// copy string
+	  
+	  cout << "After using strcpy():\n";
+	  cout << animal << " at " << (int *) animal << endl;
+	  cout << ps << " at " << (int *) ps << endl;
+	  delete [] ps;
+	  
+	  return 0;
+  }
+   */
+  /* RESULT */
+/*   bear and wren
+Enter a kind of animal: Lion
+Lion!
+Before using strcpy():
+Lion at 0x3a96bffca0
+Lion at 0x3a96bffca0
+After using strcpy():
+Lion at 0x3a96bffca0
+Lion at 0x196d2346ae0 */
+/* 
+when using strcpy()
+ex)
+char food[20] = "carrots"; //initialization
+strcpy(food, "flan");
+
+strcpy(food, "a picnic basket abced abadfjlajfljqlj ");
+// the rest of the string into the memory bytes immediately following the array, which can overwrite other memory the program is using.
+
+Instead former, should use the function like this
+strcpy(food, "a picnic basket filled with many goodies", 19);
+food[19] = '\0'; // the null character
+ */ // 178 pg
