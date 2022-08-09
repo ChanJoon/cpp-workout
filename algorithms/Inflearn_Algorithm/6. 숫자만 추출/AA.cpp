@@ -3,7 +3,8 @@
 문자와 숫자가 섞여있는 문자열에서 숫자만 추출 / 그 순서대로 자연수를 만듦.
 만들어진 자연수와 그 자연수의 약수 개수를 출력
 */
-/* 
+#if 0			// 내가 쓴 코드
+
 #include <iostream>
 #include <cmath>
 using namespace std;
@@ -45,7 +46,7 @@ int main() {
 	}
 	return 0;
 }
-*/
+#endif
 
 #include <iostream>
 using namespace std;

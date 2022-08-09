@@ -1,6 +1,7 @@
 // Ch4 Compound Types
 
-/* // string.cpp
+#if 0
+// string.cpp
 #include <iostream>
 int main(void)
 {
@@ -12,8 +13,8 @@ int main(void)
 	 cout << cat << endl;
 	 
 	 return 0;
-} */
-
+}
+#endif
 /*
 	 A string is a series of characters stored in consecutive bytes of memory.
 	 C- style strings have a special feature; The last character of every string is the null character.
@@ -21,9 +22,10 @@ int main(void)
 	 a string constant with double quotes is not interchangeable with a character constant with single quotes
 	 'S' is just another way of writing 83.
 	 "S" is not a charcter constant, consisting of two characters ( S and \0 )
- */
+*/
+ #if 0
  
-/*  #include <iostream>
+ #include <iostream>
  int main()
  {
 	 using namespace std;
@@ -35,12 +37,14 @@ int main(void)
 	 
 	 return 0;
  }
-  */
+ #endif
 
-/* 
+
 //Line-Oriented Input with getline()
 //cin.getline(name, 20) no more than 19 characters
 // instr2.cpp
+#if 0
+
 #include <iostream>
 int main()
 {
@@ -58,7 +62,7 @@ int main()
 	
 	return 0;
 }
- */
+#endif
  
 /*  
  getline() 은 사용자의 Enter 입력도 \0으로 받아들인다.
@@ -73,8 +77,8 @@ int main()
  다 입력되지 않고 배열이 찬 것인지 혹은 엔터키를 입력한 것인지 다음 get()에 들어온 chararcter를 확인하여 구분할 수 있다.
   */
  
- 
-/*  // instr3. cpp
+ #if 0
+ // instr3. cpp
  #include <iostream>
  int main()
  {
@@ -95,8 +99,8 @@ int main()
 	 
 	 return 0;
  }
-  */
-/*  
+ 
+ 
 // strtype3.cpp
 #include <iostream>
 #include <string>
@@ -125,7 +129,8 @@ int main()
 			
 	return 0;
 }
- */ //pg.139
+#endif
+ //pg.139
  
  // Other Forms of String Literals
 /* 
@@ -164,7 +169,8 @@ int main()
 	  
 	  // hat.volume => the 'volume' member of the structure variable 'hat'
  */
-/*  
+ 
+  #if 0
  // 4.11 structur.cpp -- a simple structure
  #include <iostream>
  struct inflatable		// structure declaration; external declaration - can be used in all functions in file
@@ -194,12 +200,13 @@ int main()
 	 return 0;
  }
  // also, pal.name[0] = 'A'
-  */
+ #endif
+ 
+   #if 0
 /*   
 	  // C++11 Structure Initialization
 	  inflatable duck {"Daphne", 0.12, 9.92};	// can omit =
    */
-/*   
   // 4.12 asign_st.cpp -- assigning structure. structures as arguments of a return value.
   #include <iostream>
   struct inflatable
@@ -227,7 +234,8 @@ int main()
 	  
 	  return 0;
   }
-   */
+  #endif
+  
 /*    
 	// Combine the definition of a structure form & the creation of structure variables.
 	struct perks
@@ -250,8 +258,8 @@ int main()
 	} position;		// a structure variable -> position.x, position.y
 */
    // pg.147
-/*    
-  // arrstruc.cpp
+  
+  #if 0 // arrstruc.cpp
   #include <iostream>
   struct inflatable
   {
@@ -274,7 +282,8 @@ int main()
 	  
 	  return 0;
   }
-   */
+  #endif
+  
 /*    
    // Bit Fields in Structures
    struct torgle_register
@@ -330,8 +339,8 @@ int main(void)
  
  typeName * pointer_name = new typeName;
   */
-/*   
- // use_new.cpp
+  
+ #if 0 // use_new.cpp
  #include <iostream>
  int main()
  {
@@ -360,7 +369,8 @@ int main(void)
 	 
 	 return 0;
  }
-  */
+ #endif
+ 
 /*   
   the size of a pointer-to-int is the same as the size of a pointer-to-double; Both are just addresses.
   
@@ -461,8 +471,8 @@ int main()
  int coats[10];
  *(coats + 4) = 12;				// set coats[4] = 12
   */
-/*   
-  //Listing 4.20 ptrstr.cpp
+  
+  #if 0		//Listing 4.20 ptrstr.cpp
   #include <iostream>
   #include <cstring>
   int main()
@@ -496,7 +506,8 @@ int main()
 	  
 	  return 0;
   }
-   */
+  #endif
+  
   /* RESULT */
 /*   bear and wren
 Enter a kind of animal: Lion
@@ -520,3 +531,184 @@ Instead former, should use the function like this
 strcpy(food, "a picnic basket filled with many goodies", 19);
 food[19] = '\0'; // the null character
  */ // 178 pg
+ 
+ /* 0810
+ Using new to Create Dynamic Structures
+ 
+ struct things
+ {
+	 int good;
+	 int bad;
+ }
+ 
+ things grubnose = {3, 453};		// grubnose is a structure
+ things * pt = &grubnose;			// pt points to the grubnose structure
+ */
+ 
+ #if 0		// Listing 4.21	newstrct.cpp
+ #include <iostream>
+ struct inflatable		// structure def
+ {
+	 char name[20];
+	 float volume;
+	 double price;
+ };
+ int main()
+ {
+	 using namespace std;
+	 inflatable * ps = new inflatable;		// allot memory for structure
+	 
+	 cout << "Enter name of inflatable item: ";
+	 cin.get(ps->name, 20);					// method 1 for member access
+	 
+	 cout << "Enter volume in cubic feet: ";
+	 cin >> (*ps).volume;							// method 2 for member access
+	 
+	 cout << "Enter price: $";
+	 cin >> ps->price;
+	 
+	 cout << "Name: " << (*ps).name << endl;
+	 cout << "Volume: " << ps->volume << " cubic feet\n";
+	 cout << "Price : $" << ps->price << endl;
+	 
+	 delete ps;												// free memory used by structure
+	 return 0;
+ }
+ #endif
+ 
+ #if 0		//delete.cpp
+ #include <iostream>
+ #include <cstring>
+ using namespace std;
+ char * getname (void);			// function prototype
+ int main ()
+ {
+	 char * name;						// create pointer but no storage
+	 
+	 name = getname();				// assign address of string to name
+	 cout << "In main()" << endl;
+	 cout << name << " at " << (int *) name << "\n";
+	 delete [] name;
+	 
+	 name = getname();				// reuse freed memory
+	 cout << name << " at " << (int *) name << "\n";
+	 delete [] name;
+	 return 0;
+ }
+ 
+ char * getname()						// return pointer to new string (name)
+ {
+	 char temp[80];
+	 cout << "Enter last name: ";
+	 cin >> temp;
+	 
+	 char * pn = new char[strlen(temp) + 1];			// Including null character, needs strlen(temp) + 1 characters
+	 strcpy(pn, temp);					// copy string into smaller space
+	 
+	 cout << "In getname()" << "\ntemp : " << temp << " at " << (int *) temp << endl;
+	 cout << "pn : " << pn << " at " << (int *) pn << endl;
+	 
+	 return pn;								// temp lost when function ends
+ }
+ #endif
+ 
+ /*
+ C++ has three ways of managing memory for data
+ automatic storage
+ static storage
+ dynamic storage
+ In Ch 9, there is fourth form called thread storage
+ 
+ Automatic Storage; the variables exists automatically when the function is invoked, expire when the function terminates
+ Static Storage; storage exists throughout the execution of an entire program.
+	1) define it externally		2) use the keyword static
+Dynamic Storage; The new and delete oprators -> free store or heap
+*/
+
+#if 0 			// Listing 4.23 mixtypes.cpp
+#include <iostream>
+
+struct antarctica_years_end
+{
+	int year;
+};
+
+int main()
+{
+	antarctica_years_end s01, s02, s03;		// s01, s02, s03 are structures
+	
+	s01.year = 1998;
+	antarctica_years_end * pa = &s02;			// create a pointer to s02 structure
+	pa -> year = 1999;
+	
+	antarctica_years_end trio[3];		// array of 3 structures
+	trio[0].year = 2003;						// trio[0] is a structure
+	
+	std::cout << trio-> year << std::endl;		// trio->year same as trio[0].year
+	// (trio+1) -> year is same as trio[1].year
+	// an array name is a pointer
+	
+	const antarctica_years_end * arp[3] = {&s01, &s02, &s03};
+	std::cout << arp[1] -> year << std::endl;
+	
+	const antarctica_years_end ** ppa = arp;			// arp is the name of an array
+	// ppa has to a pointer to a pointer to const antarctica_years_end
+	auto ppb = arp;								 // C++11 automatic type deduction
+	// or else use const antarctica_years_end ** ppb = arp;
+	std::cout << (*ppa) -> year << std::endl;				// ppa points to the first member of arp; &s01
+	// (*ppa)-> year = s01.year
+	std::cout <<(*(ppb+1)) -> year << std::endl;
+	
+	return 0;
+}
+#endif
+
+/* The vector Template Class
+similar to the string class in that it is a dynamic array.
+the vector class does automatically manage memory ( new / delete )
+vector<typeName> vt(n_elem);
+*/
+
+/* The array Template Class (C+11)
+array<typeName, n_elem> arr;
+*/
+
+#if 0 			// Listing 4.24 choices.cpp
+#include <iostream>
+#include <vector>			// STL C++98
+#include <array>			// C++11
+int main()
+{
+	using namespace std;
+	
+	// C, original C++
+	double a1[4] = {1.2, 2.4, 3.6, 4.8};
+	
+	// C++98 STL
+	vector<double> a2(4);		// create vector with 4 elements
+	// no simple way to initialize in C98
+	a2[0] = 1.0/3.0;
+	a2[1] = 1.0/5.0;
+	a2[2] = 1.0/7.0;
+	a2[3] = 1.0/9.0;
+	
+	// C++11 -- create and initialize array object
+	array<double, 4> a3 = {3.14, 2.72, 1.62, 1.41};
+	array<double, 4> a4;
+	a4 = a3;
+	
+	// use array notation
+	cout << "a1[2] : " << a1[2] << " at " << &a1[2] << endl;
+	cout << "a2[2] : " << a2[2] << " at " << &a2[2] << endl;
+	cout << "a3[2] : " << a3[2] << " at " << &a3[2] << endl;
+	cout << "a4[2] : " << a4[2] << " at " << &a4[2] << endl;
+	
+	// misdeed
+	a1[-2] = 20.2;			// same as a1.at(-2) = 20.2;
+	cout << "a1[-2] : " << a1[-2] << " at " << &a1[-2] << endl;
+	cout << "a3[2] : " << a1[2] << " at " << &a1[2] << endl;
+	cout << "a4[2] : " << a1[2] << " at " << &a1[2] << endl;
+	
+	return 0;
+} // 195pg
+#endif
