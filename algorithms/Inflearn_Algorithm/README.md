@@ -32,3 +32,30 @@
 >
 >	###### \<iostream\>는 객체에 %를 사용하지 않아서, 더 안전하다. 더 자세한 내용은 아래 링크에 나와있다.
 > > <a> https://isocpp.org/wiki/faq/input-output#iostream-vs-stdio
+  
+  
+## 0808
+  > ### 01 Unknown array size
+  > ###### char[size]로 선언된 array에 문자를 입력. size보다 작은 입력이 들어왔을 때 입력크기만큼 array를 정하고 싶었다.
+  > > <a> https://stackoverflow.com/questions/22432755/how-to-initialize-an-array-whose-size-is-initially-unknown
+  > > <a> https://stackoverflow.com/questions/3857229/check-if-c-array-is-null
+  > ###### 다음과 같은 동적할당에 대한 설명을 찾을 수 있었는데, Primer 교재의 Ch4를 끝낸 후에 같이 살펴보고 Pointer와 Dynamic Array에 익숙해지면 좋겠다.
+  >
+  > ### 02 isblank
+  > ###### 입력된 문자열에 띄어쓰기를 찾는 방법
+>    ```cpp
+>     if( a[i] == ' ' )     // 또는
+>     if( isblank(a[i] )
+>   ```
+  > > <a> https://cplusplus.com/reference/cctype/isblank/
+  >
+  > ### 03 Lowercase
+  > > <a> https://www.programiz.com/cpp-programming/library-function/cctype/tolower
+  > ###### tolower();을 이용하여 소문자로 바꿀 수 있다. <cctype> or <ctype.h> 헤더파일이 필요하다.
+>   ```cpp
+  > #include <cctype>
+  > char ch = tolower('A');
+>   ```
+  > ### 04 주석달기
+  > ###### C++은 보통 /* */ 혹은 // 을 이용하여 주석처리하는데, /* */ 안에 새로운 /* */가 존재하면 닫히는 */을 주석의 끝으로 처리하여 이중 주석이 불가능하다.
+  > ###### 이 경우 #if 0 #endif를 이용하면 전체주석처리가 가능하며 이 안에 /* */를 사용하는 것은 가능하다.
