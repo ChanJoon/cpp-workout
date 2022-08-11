@@ -85,3 +85,88 @@ int main()
 }
 #endif
 // 215 pg
+
+#if 0			// Listing 5.11 compstr1.cpp
+#include <iostream>
+#include <cstring>
+int main()
+{
+	using namespace std;
+	char word[5] = "?ate";
+	
+	for (char ch = 'a'; strcmp(word, "mate"); ch++)
+	{
+		cout << word << endl;
+		word[0] = ch;
+	}
+	cout << "After loop ends, word is " << word << endl;
+	return 0;
+}
+#endif
+
+/* Differences between for and while loops
+1. an ommitted test condition in a for loop is interpreted as true.
+2. the initializing statement in a for loop to declare a variable that is local to the loop
+3. for loops for counting loops / while loops when don't know how many times a loop will execute.
+*/
+
+/* Building a Time-Delay Loop
+long wait = 0;
+while (wait < 10000)
+		wait++;
+Problem: have to change the counting limit when you change computer processor speed.
+
+clock()
+1. doesn't necessarily return the time in seconds
+2. return type might be long on some systems, unsigned long on others,,,
+ 
+ -> ctime header file
+ CLOCKS_PER_SEC
+ clock_t
+*/
+
+#if 0			// Listing 5.14 waiting.cpp
+#include <iostream>
+#include <ctime>
+int main()
+{
+	using namespace std;
+	cout << "Enter the delay time, in seconds : ";
+	
+	float secs;
+	cin >> secs;
+	
+	clock_t delay = secs * CLOCKS_PER_SEC;	// conver to clock ticks
+	cout << "starting \a\n";
+	clock_t start = clock();
+	
+	while (clock() - start < delay)
+		;
+	cout << "done \a\n";
+	return 0;
+}
+#endif
+
+/* Type Aliases
+1) the pre-processor
+#define BYTE char			// preprocessor replaces BYTE with char
+
+2) C++ keyword typedef
+typedef char byte;			// makes byte an alias for char
+*/
+
+/* The Range-Based for Loop (C++11)
+1)
+double prices[5] = {4.99, 10.99, 6.87, 7.99, 8.49};
+for (double x : prices)
+	cout << x << std::endl;
+
+2)
+for (double &x : prices)
+	x = x * 0.80;
+
+3)
+for (int x : {3, 5, 2, 8, 6})
+	cout << x << " ";
+cout << '\n';
+*/ //233 pg
