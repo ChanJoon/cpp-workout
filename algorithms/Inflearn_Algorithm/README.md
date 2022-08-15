@@ -59,3 +59,57 @@
   > ### 04 주석달기
   > ###### C++은 보통 /* */ 혹은 // 을 이용하여 주석처리하는데, /* */ 안에 새로운 /* */가 존재하면 닫히는 */을 주석의 끝으로 처리하여 이중 주석이 불가능하다.
   > ###### 이 경우 #if 0 #endif를 이용하면 전체주석처리가 가능하며 이 안에 /* */를 사용하는 것은 가능하다.
+
+## 0815
+  > ### 01 시간복잡도
+  > ###### 1부터 N까지의 모든 약수를 구하면 시간복잡도가 n*n이 된다.
+  > ###### N까지의 배수 갯수가 각 수들의 약수 갯수 임을 이용함.
+  > ```cpp
+  >for(int i=1; i<=n; i++)
+	>{
+	>	for(int j=i; j<=n; j+=i)  // i번째 수의 배수를 찾아서 해당 수의 cnt++
+	>	{
+	>		cnt[j]++;
+	>	}
+	>}
+	>for (int idx = 1; idx<=n; idx++)
+	>{
+	>	cout << cnt[idx] << " ";
+	>}
+  > ```
+  > ### 02 Array
+  > ###### Array선언 방식은 여러가지가 있다.
+> ```cpp
+  >   int a[5] = {0};
+  >   // typeName ArName[ArSize] = {elements};
+  >
+  >   #include <array>
+  >   array<int, 5> a = {0};
+  >   // array<typeName, ArSize> ArName= {element};
+> ```
+  > ###### 이외에도 Array 모든 값 출력, 최댓값 출력을 찾아보았다.
+  > ### 02-2 Cout a whole array
+  > > <a> https://stackoverflow.com/questions/33439064/cout-a-whole-array-in-c
+> ```cpp
+  >   // without Loop
+  >   std::copy(std::begin(arra), 
+  >             std::end(arra),
+  >             std::ostream_iterator<int>(std::cout, "\n"));
+  >   // with Loop
+  >   for (const auto& e : arra) {
+  >     std::cout << e << std::endl;
+  >   }
+> ```
+  > ###### 아직 동적할당이 익숙하지 않아서, 추후에 볼 필요가 있음.
+  >
+  > ### 02-3 Max in a C++ Array
+  > > <a> https://stackoverflow.com/questions/34315002/max-in-a-c-array
+  > ```cpp
+  > #include <iostream>
+  > #include <algorithm>
+  > #include <array>
+  > // Example 1
+  >  cout << *std::max_element(array, array + n) << "\n";
+  > // Example 2
+  >  cout<<"Max: "<< *max_element(arr.begin(),arr.end())<<endl;
+  > ```
