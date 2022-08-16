@@ -66,16 +66,16 @@
   > ###### N까지의 배수 갯수가 각 수들의 약수 갯수 임을 이용함.
   > ```cpp
   >   for(int i=1; i<=n; i++)
-	>   {
-	>	   for(int j=i; j<=n; j+=i)  // i번째 수의 배수를 찾아서 해당 수의 cnt++
-	>	   {
-	>		  cnt[j]++;
-	>	   }
-	>   }
-	>   for (int idx = 1; idx<=n; idx++)
-	>   {
+  >   {
+  >	   for(int j=i; j<=n; j+=i)  // i번째 수의 배수를 찾아서 해당 수의 cnt++
+  >	   {
+  >		  cnt[j]++;
+  >	   }
+  >   }
+  >   for (int idx = 1; idx<=n; idx++)
+  >   {
   >	   cout << cnt[idx] << " ";
-	>   }
+  >   }
   > ```
   > ### 02 Array
   > ###### Array선언 방식은 여러가지가 있다.
