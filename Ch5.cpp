@@ -170,3 +170,86 @@ for (int x : {3, 5, 2, 8, 6})
 	cout << x << " ";
 cout << '\n';
 */ //233 pg
+
+#if 0			// Listing 5.16 textin1.cpp
+#include <iostream>
+int main()
+{
+	using namespace std;
+	char ch;
+	int count = 0;
+	
+	cout << "Enter characters; enter # to quit:\n";
+	cin >> ch;
+	while (ch != '#')
+	{
+		cout << ch;
+		++count;
+		cin >> ch;
+	}
+	cout << endl << count << " characters read\n";
+	return 0;
+}
+#endif
+/*
+1) cin skips over spaces and newline characters.
+2) the input to cin is buffered. until press Enter, the characters typed don't get sent.
+*/
+# if 0			// Listing 5.17	textin2.cpp
+#include <iostream>
+int main()
+{
+	using namespace std;
+	char ch;
+	int count = 0;
+	
+	cout << "Enter characters; enter # to quit:\n";
+	cin.get(ch);
+	while(ch != '#')
+	{
+		cout << ch;
+		++count;
+		cin.get(ch);
+	}
+	cout << endl << count << " characters read\n";
+	return 0;
+}
+#endif
+
+#if 0		// Listing 5.18 textin3.cpp
+#include <iostream>
+int main()
+{
+	using namespace std;
+	char ch;
+	int count = 0;
+	cin.get(ch);
+	while(cin.fail() == false)		//test for EOF
+	{
+		cout << ch;
+		++count;
+		cin.get(ch);
+	}
+	cout << endl << count << " characters read\n";
+	return 0;
+}
+#endif
+
+// cin.put(char(ch)) works for int types
+#if 0			// Listing 5.19 textin4.cpp
+#include <iostream>
+int main(void)
+{
+	using namespace std;
+	int ch;
+	int count = 0;
+	
+	while( (ch = cin.get()) != EOF)
+	{
+		cout.put(char(ch));
+		++count;
+	}
+	cout << endl << count << " characters read\n";
+	return 0;
+}
+#endif
