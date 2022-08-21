@@ -113,3 +113,62 @@
   > // Example 2
   >  cout<<"Max: "<< *max_element(arr.begin(),arr.end())<<endl;
   > ```
+
+## 0821
+> ### Find index of an element in Array
+> ###### 보통은 다시 for loop를 돌리면서 element와 일치하는 index를 찾아냄.
+> ###### 13. 가장 많이 사용된 자릿수 에서도 element가 max보다 크거나 같을 경우, max를 갱신하고 index를 저장함.
+> ```cpp
+> #include <iostream>
+> #include <climits>
+> int ch[10];
+> int main()
+> {
+>   using namespace std;
+>   int i, digit, res;
+> 	int max = INT_MIN;
+> 	char a[101];
+> 	cin >> a;
+> 	
+> 	for (i = 0; a[i] != '\0'; i++)
+> 	{
+> 		digit = a[i] - 48;      // i번째 자릿수의 숫자
+> 		ch[digit]++;            // 해당 숫자 index의 배열 element 증가
+> 	}
+> 	for(i = 0; i < 10; i++)
+> 	{
+> 		if (ch[i] >= max)
+> 		{
+>			max = ch[i];
+>			res = i;
+>		  }
+>	  }
+>	  cout << res;
+>	  return 0;
+> }
+> ```
+> ###### 다음과 같이 std::find() 를 이용하면 간단히 짤 수 있다.
+> > <a> https://thispointer.com/find-index-of-an-element-in-an-array-in-c/
+> ```cpp
+> // STL Function to find index of a element
+> #include <iostream>
+> #include <algorithm>
+> using namespace std;
+> // Driver Code
+> int main()
+> {
+>     int arr[] = {12, 56, 823, 7, 1023};
+>     int n = sizeof(arr) / sizeof(arr[0]);
+>     int element = 56;
+>     // using stl function
+>     int index = find(arr, arr + n, element) - arr;
+>     if (index < n)
+>     {
+>         cout << "Index of " << element<<" is "<< index << endl;
+>     }
+>     else
+>     {
+>         cout<< "Element does not exist in array" << endl;
+>     }
+>     return 0;
+> }
