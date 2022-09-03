@@ -77,7 +77,7 @@ Function Arguments and Passing by Value
 */
 
 // Multiple Arguments & Local variables
-// Listing 7.3 twoarg.cpp
+#if 0			// Listing 7.3 twoarg.cpp
 #include <iostream>
 using namespace std;
 void n_chars(char, int);
@@ -106,3 +106,68 @@ void n_chars(char c, int n)
 	while (n-- > 0)				// continue until n reaches 0
 		cout << c;
 }
+#endif		// 316pg
+
+# if 0			// Lising 7.4 lotto.cpp
+#include <iostream>
+
+long double probability(unsigned numbers, unsigned picks);
+int main()
+{
+	using namespace std;
+	double total, choices;
+	
+	cout << "Enter the total number of choices on the game card and \n"
+				 "the number of picks allowed: \n";
+	 while( (cin >> total >> choices) && choices <= total)
+	 {
+		 cout << "You have one chance in ";
+		 cout << probability(total, choices);
+		 cout << " of winnig.\n";
+		 cout << "Next two numbers (q to quit): ";		// if 'q' entered, false returned
+	 }
+	 
+	 return 0;
+
+}
+	 
+ long double probability(unsigned numbers, unsigned picks)
+ {
+	 long double result = 1.0;
+	 long double n;
+	 unsigned p;
+	 
+	 for (n = numbers, p = picks; p > 0; n--, p--)
+		 result = result * n / p;
+	 return result;
+ }
+ #endif
+ 
+ // Functions and Arrays
+ #if 0			// Listing 7.5	arrfun1.cpp
+ #include <iostream>
+ const int ArSize = 8;
+ int sum_arr(int arr[], int n);
+ int main()
+ {
+	 using namespace std;
+	 int cookies[ArSize] = {1, 2, 4, 8, 16, 32, 64, 128};
+	 
+	 int sum = sum_arr(cookies, ArSize);
+	 cout << "Total cookies eaten: " << sum << "\n";
+	 return 0;
+ }
+ 
+ int sum_arr(int arr[], int n)			// int arr[] == int * arr
+ {
+	 int total = 0;
+	 for (int i = 0; i < n; i++)
+		 total += arr[i];
+	 return total;
+ }
+ #endif
+ 
+ // arr[i] == *(ar + i)			values in two notations
+ // &arr[i] == ar + i				addressed in two notations
+ 
+ 
