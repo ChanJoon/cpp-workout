@@ -170,4 +170,244 @@ int main()
  // arr[i] == *(ar + i)			values in two notations
  // &arr[i] == ar + i				addressed in two notations
  
- 
+ /* Protecting the Array with const
+ void show_array (const double ar[], int n);
+  => treats the array as read-only data.
+	  void show_array (const double ar[], int n)
+	  {
+		  using namespace std;
+		  for (int i = 0; i < n; i++)
+		  {
+			  cout << "Property #" << (i + 1) << ": $";
+			  cout << ar[i] << endl;
+		  }
+	  }
+*/
+
+#if 0			// Listing 7.7 arrfun3.cpp
+#include <iostream>
+const int Max = 5;
+
+int fill_array(double ar[], int limit);
+void show_array(const double ar[], int n);
+void revalue(double r, double ar[], int n);
+
+int main()
+{
+	using namespace std;
+	double properties[Max];
+	
+	int size = fill_array(properties, Max);
+	show_array(properties, size);
+	if (size > 0)
+	{
+		cout << "Enter revaluation factor: ";
+		double factor;
+		while (! (cin >> factor))
+		{
+			cin.clear();
+			while (cin.get() != '\n')
+				continue;
+			cout << "Bad input; enter a # : ";
+		}
+		revalue(factor, properties, size);
+		show_array(properties, size);
+	}
+	cout << "Done.\n";
+	cin.get();
+	cin.get();
+	return 0;
+}
+
+int fill_array(double ar[], int limit)
+{
+	using namespace std;
+	double temp;
+	int i;
+	for (i = 0; i < limit; i++)
+	{
+		cout << "Enter value #" << (i + 1) << ": ";
+		cin >> temp;
+		if (!cin)
+		{
+			cin.clear();
+			while (cin.get() != '\n')
+				continue;
+			break;
+		}
+		else if (temp < 0)
+			break;
+		ar[i] = temp;
+	}
+	return i;
+}
+
+void show_array(const double ar[], int n)
+{
+	using namespace std;
+	for (int i = 0; i < n; i++)
+	{
+		cout << "Property #" << (i + 1) << ": $";
+		cout << ar[i] << endl;
+	}
+}
+
+void revalue(double r, double ar[], int n)
+{
+	for (int i = 0; i < n; i++)
+		ar[i] *= r;
+}
+#endif
+
+/* Functions and Two-Deimensinal Arrays
+
+int sum(int (*ar2)[4], int size);
+int sum(int ar2[][4], int size);
+
+int sum(int ar2[][4], int size)
+{
+	int total = 0;
+	for (int r = 0; r < size; r++)
+		for (int c = 0; c < 4; c++)
+			total += ar2[r][c];
+	return total;
+}
+
+ar2[r][c] == *(*(ar2 + r) + c) 			// same thing
+
+ar2							// pointer to first row of an array of 4 int
+ar2 + r					// pointer to row r (an array of 4 int)
+*(ar2 + r)				// row r (an array of 4 int, hence the name of an array,
+								// thus a pointer to the first int in the row, i.e., ar2[r]
+
+* (ar2 + r) + c		// pointer int number c in row r, i.e., ar2[r] + c
+*(*(ar2 + r) + c)	// value of int number c in row r, i.e, ar2[r][c]
+*/
+
+// Functions with C-Style String Arguments
+#if 0			// Lising 7.9	strgfun.cpp
+#include <iostream>
+unsigned int c_in_str(const char * str, char ch);
+int main()
+{
+	using namespace std;
+	char mmm[15] = "minumum";
+	// some systems require preceding char with static to
+	// enable array initialization
+	
+	const char *wail = "ululate";		// wail point to string
+	
+	unsigned int ms = c_in_str(mmm, 'm');
+	unsigned int us = c_in_str(wail, 'u');
+	
+	cout << ms << " m characters in " << mmm << endl;
+	cout << us << " u characters in " << wail << endl;
+	return 0;
+}
+
+// this function counts the number of ch characteres
+unsigned int c_in_str(const char * str, char ch)
+{
+	unsigned int count = 0;
+	
+	while (*str)			// quit when *str is '\0'
+	{
+		if (*str == ch)
+			count ++;
+		str++;					// move pointer to next char
+	}
+	return count;
+}
+#endif
+
+// Functions That Return C-Style Strings
+#if 0			// Listing 7.10	strgback.cpp
+#include <iostream>
+char * buildstr(char c, int n);
+int main()
+{
+	using namespace std;
+	int times;
+	char ch;
+	
+	cout << "Enter a character: ";
+	cin >> ch;
+	cout << "Enter a integer: ";
+	cin >> times;
+	
+	char *ps = buildstr(ch, times);
+	cout << ps << endl;
+	
+	delete [] ps;						// free memory
+	ps = buildstr('+', 20);	// reuse pointer
+	
+	cout << ps << "-DONE-" << ps << endl;
+	delete [] ps;						// free memory
+	return 0;
+}
+
+// builds string made of n c characters
+char * buildstr(char c, int n)
+{
+	char * pstr = new char[n + 1];
+	pstr[n] = '\0';
+	while (n-- > 0)
+		pstr[n] = c;
+	return pstr;
+}
+#endif
+
+/* Program Notes
+while(n-- > 0)
+	pstr[n] = c;
+
+the while loop test condition compares 1 to 0, the test to be true, and continues.
+decrements n to 0, so pstr[0] is the last element set to c.
+*/
+
+// Passing and Returning Structures
+// Lising 7.11	trave1.cpp
+#include <iostream>
+struct travel_time
+{
+	int hours;
+	int mins;
+};
+const int Mins_per_hr = 60;
+
+travel_time sum(travel_time t1, travel_time t2);
+void show_time(travel_time t);
+
+int main()
+{
+	using namespace std;
+	travel_time day1 = {5, 45};
+	travel_time day2 = {4, 55};
+	
+	travel_time trip = sum(day1, day2);
+	cout << "Two-day total: ";
+	show_time(trip);
+	
+	travel_time day3 = {4, 32};
+	cout << "Three-day total: ";
+	show_time(sum(trip, day3));
+	
+	return 0;
+}
+
+travel_time sum(travel_time t1, travel_time t2)
+{
+	travel_time total;
+	
+	total.mins = (t1.mins + t2.mins) % Mins_per_hr;
+	total.hours = t1.hours + t2.hours + (t1.mins + t2.mins) / Mins_per_hr;
+	
+	return total;
+}
+
+void show_time(travel_time t)
+{
+	using namespace std;
+	cout << t.hours << " hours, " << t.mins << " minutes.\n";
+}
+// 345pg
