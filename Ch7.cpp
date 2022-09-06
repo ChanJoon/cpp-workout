@@ -366,7 +366,7 @@ decrements n to 0, so pstr[0] is the last element set to c.
 */
 
 // Passing and Returning Structures
-// Lising 7.11	trave1.cpp
+#if 0				// Lising 7.11	trave1.cpp
 #include <iostream>
 struct travel_time
 {
@@ -410,4 +410,212 @@ void show_time(travel_time t)
 	using namespace std;
 	cout << t.hours << " hours, " << t.mins << " minutes.\n";
 }
+#endif
 // 345pg
+
+#if 0		// Lising 7.12 strctfun.cpp
+#include <iostream>
+#include <cmath>
+
+// structure
+struct polar
+{
+	double distance;
+	double angle;
+};
+struct rect
+{
+	double x;
+	double y;
+};
+
+//prototypes
+polar rect_to_polar(rect xypos);
+void show_polar(polar dapos);
+
+int main()
+{
+	using namespace std;
+	rect rplace;
+	polar pplace;
+	
+	cout << "Enter the x and y values: ";
+	while (cin >> rplace.x >> rplace.y)
+	{
+		pplace = rect_to_polar(rplace);
+		show_polar(pplace);
+		cout << "Next two numbers: ";
+	}
+	cout << "Done.\n";
+	return 0;
+}
+
+// convert rectangular to polar coordinates
+polar rect_to_polar(rect xypos)
+{
+	using namespace std;
+	polar answer;
+	
+	answer.distance = sqrt(xypos.x * xypos.x + xypos.y * xypos.y);
+	answer.angle = atan2(xypos.y, xypos.x);
+	return answer;
+}
+// show polar coordinates, converting angle to degrees
+void show_polar(polar dapos)
+{
+	using namespace std;
+	const double Rad_to_deg = 57.29577951;
+	
+	cout << "distance = " << dapos.distance;
+	cout << ", angle = " << dapos.angle * Rad_to_deg;
+	cout << " degress\n";
+}
+#endif
+
+/* Passing Structure Addresses
+To save time and space, use pointers to structures.
+ - When calling the function, pass it the address of the structure &pplace (rather than pplace)
+ - Declare the formal parameter to be a pointer-to-structure
+ - use the indirect membership operator -> (rather than the membership operator dot)
+ 
+ void show_polar(const polar * pda)
+ {
+	 using namespace std;
+	 const double radToDeg = 57.2958;
+	 
+	 cout << "distance" << pda -> distance;
+	 cout << ", angle" << pda->angle * radToDeg;
+	 cout << " degrees\n";
+ }
+ 
+ To take full advantage of pointer efficiency, use a pointer instead of a return value.
+ 2 pointers to the function; the structure to be converted & that to hold the conversion.
+ then, the first argument is const pointer, the second is not const.
+ */
+ 
+ #if 0			// Listing 7.13 strtptr.cpp
+ #include <iostream>
+ #include <cmath>
+ // structure
+struct polar
+{
+	double distance;
+	double angle;
+};
+struct rect
+{
+	double x;
+	double y;
+};
+
+//prototypes
+void rect_to_polar(const rect *pxy, polar *pda);
+void show_polar(const polar * pda);
+
+int main()
+{
+	using namespace std;
+	rect rplace;
+	polar pplace;
+	
+	cout << "Enter the x and y values: ";
+	while (cin >> rplace.x >> rplace.y)
+	{
+		rect_to_polar(&rplace, &pplace);		// pass addresses
+		show_polar(&pplace);							// pass addresses
+		cout << "Next two numbers: ";
+	}
+	cout << "Done.\n";
+	return 0;
+}
+
+// convert rectangular to polar coordinates
+void rect_to_polar(const rect *pxy, polar *pda)
+{
+	using namespace std;
+	pda->distance = sqrt(pxy->x * pxy->x + pxy->y * pxy->y);
+	pda->angle = atan2(pxy->y, pxy->x);
+}
+// show polar coordinates, converting angle to degrees
+void show_polar(const polar * pda)
+{
+	using namespace std;
+	const double Rad_to_deg = 57.29577951;
+	
+	cout << "distance = " << pda->distance;
+	cout << ", angle = " << pda->angle * Rad_to_deg;
+	cout << " degress\n";
+}
+#endif
+
+#if 0			// Listing 7.14	topfive.cpp
+#include <iostream>
+#include <string>
+using namespace std;
+const int SIZE = 5;
+void display(const string sa[], int n);
+int main()
+{
+	string list[SIZE];
+	cout << "Enter your " << SIZE << " favorite astronomical sight:\n";
+	for (int i = 0; i < SIZE; i++)
+	{
+		cout << i  + 1 << ": ";
+		getline(cin,list[i]);
+	}
+	cout << "Your list:\n";
+	display(list, SIZE);
+	
+	return 0;
+}
+
+void display(const string sa[], int n)
+{
+	for (int i = 0; i < n; i++)
+		cout << i + 1 << ": " << sa[i] << endl;
+}
+#endif
+
+// Functions and array Objects
+#if 0			// Lising 7.15 arrobj.cpp
+#include <iostream>
+#include <array>
+#include <string>
+const int Seasons = 4;
+const std::array<std::string, Seasons> Snames = {"Spring", "Summer", "Fall", "Winter"};
+
+void fill(std::array<double, Seasons> * pa);
+void show(std::array<double, Seasons> da);
+
+int main()
+{
+	std::array<double, Seasons> expenses;
+	fill(&expenses);
+	show(expenses);
+	return 0;
+}
+
+void fill(std::array<double, Seasons> * pa)
+{
+	using namespace std;
+	for (int i = 0; i < Seasons; i++)
+	{
+		cout << "Enter " << Snames[i] << " expenses: ";
+		cin >> (*pa)[i];
+	}
+}
+
+void show(std::array<double, Seasons> da)
+{
+	using namespace std;
+	double total = 0.0;
+	cout << "\nEXPENSES\n";
+	for (int i = 0; i < Seasons; i++)
+	{
+		cout << Snames[i] << ": $" << da[i] << endl;
+		total += da[i];
+	}
+	cout << "Total Expenses: $" << total << endl;
+}
+#endif
+// 357pg
