@@ -619,3 +619,135 @@ void show(std::array<double, Seasons> da)
 }
 #endif
 // 357pg
+
+// Recursion
+#if 0		// Listing 7.16 recur.cpp
+#include <iostream>
+void countdown(int n);
+
+int main()
+{
+	countdown(4);
+	return 0;
+}
+
+void countdown(int n)
+{
+	using namespace std;
+	cout << "Counting down... " << n << " (n at " << &n << ")" << endl;
+	if (n > 0)
+		countdown(n-1);
+	cout << n << ": Kaboom!" << "         (n at " << &n << ")" << endl;
+}
+#endif
+
+// 재귀함수; 함수 안에서 자신을 호출하는 함수
+// if문이 false가 되면 들어간 level만큼 나오게 된다.
+
+// Recursion with Multiple Recursive Calls
+// divide-and-conquer strategy
+#if 0			// Listing 7.17 ruler.cpp
+#include <iostream>
+const int Len = 66;
+const int Divs = 6;
+void subdivide(char ar[], int low, int high, int level);
+int main()
+{
+	char ruler[Len];
+	int i;
+	for (i = 1; i < Len - 2; i++)
+		ruler[i] = ' ';
+	ruler[Len - 1] = '\0';
+	
+	int max = Len - 2;
+	int min = 0;
+	ruler[min] = ruler[max] = '|';
+	std::cout << ruler << std::endl;
+	
+	for (i = 1; i <= Divs; i++)
+	{
+		subdivide(ruler, min, max, i);
+		std::cout << ruler << std::endl;
+		for (int j = 1; j < Len - 2; j++)
+			ruler[j] = ' ';		//reset to blank ruler
+	}
+}
+
+void subdivide(char ar[], int low, int high, int level)
+{
+	if (level == 0)
+		return;
+	int mid = (high + low) / 2;
+	ar[mid] = '|';
+	subdivide(ar, low, mid, level - 1);
+	subdivide(ar, mid, high, level - 1);
+}
+#endif
+
+/* Pointers to Fuctions
+
+double (*pf) (int);		// pf points to a function that returns double
+double *pf (int);		// pf() a function that returns a pointer-to-double
+
+double (*pf) (int);		// pf points to a fuction, one int argument, return type double
+
+double pam (int);
+double (*pf) (int);
+pf = pam;
+double x = pam(4);		// call pam() using the function name
+double y = (*pf)(5);		// call pam() using the pointer pf
+double z = pf(5);			// ALSO CALL pam() using the pointer pf
+
+	How can pf and (*pf) be equivalent? One school of thought maintains that because pf is a pointer to a function, *pf is a function;
+	hence, you should use (*pf)() as a function call. A second school maintains that because the name of a function is a pointer to that function, a pointer to that function should act like the name of a function;
+	hence you should use pf() as a function call. C++ takes the compromise view that both forms are correct, or at least can be allowed
+*/
+
+#if 0		// Listing 7.18	fun_ptr.cpp
+#include <iostream>
+double betsy(int);
+double pam(int);
+void estimate(int lines, double (*pf)(int));
+
+int main()
+{
+	using namespace std;
+	int code;
+	
+	cout << "How many lines of code do you need? ";
+	cin >> code;
+	
+	cout << "Here's Betsy's estimate:\n";
+	estimate(code, betsy);
+	
+	cout << "Here's Pam's estimate:\n";
+	estimate(code, pam);
+	
+	return 0;
+}
+
+double betsy(int lns)
+{
+	return 0.05 * lns;
+}
+
+double pam(int lns)
+{
+	return 0.03 * lns + 0.0004 * lns * lns;
+}
+
+void estimate(int lines, double (*pf)(int))
+{
+	using namespace std;
+	cout << lines << " lines with take ";
+	cout << (*pf)(lines) << " hour(s)\n";
+}
+#endif
+
+/* Variations on the Theme of Function Pointers
+	const double * f1(const double ar[], int n);
+	const double * f2(const double [], int n);
+	const double * f3(const double *, int);
+The signatures are the same.
+*/
+// 366pg
