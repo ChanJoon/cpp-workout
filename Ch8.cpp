@@ -272,3 +272,153 @@ then use this function
 this makes jolly a reference to the new structure. but should use delete to free memory.
 */
 // 400 pg
+
+// Using References with a Class Object
+#if 0				// Listing 8.7 strquote.cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
+string version1(const string & s1, const string & s2);
+const string & version2(string & s1, const string & s2);		// has side effect
+const string & version3(string & s1, const string & s2);		// bad design
+
+int main()
+{
+	string input;
+	string copy;
+	string result;
+	
+	cout << "Enter a string: ";
+	getline(cin, input);
+	copy = input;
+	
+	cout << "Your string as entered: " << input << endl;
+	result = version1(input, "***");		// the contents of the return location are copied to the string named result; temp -> result (type string)
+	cout << "Your string enhanced: " << result << endl;
+	cout << "Your original string: " << input << endl;
+	
+	result = version2(input, "###");
+	// it's safe to return s1 as a reference.
+	// version2(input, "###");			// input altered directly
+	// result = input;								// reference to s1 is reference to input
+	cout << "Your string enhanced: " << result << endl;
+	cout << "Your original string: " << input << endl;
+	cout << "Resetting original string.\n";
+	input = copy;
+	
+	result = version3(input, "@@@");
+	cout << "Your string enhanced: " << result << endl;
+	cout << "Your original string: " << input << endl;
+	
+	return 0;
+}
+
+string version1(const string & s1, const string & s2)
+{
+	string temp;
+	
+	temp = s2 + s1 + s2;
+	return temp;
+}
+
+const string & version2(string & s1, const string & s2)		// has side effect
+{
+	// directly alters the original string
+	s1 = s2 + s1 + s2;
+	return s1;
+}
+
+const string & version3(string & s1, const string & s2)		// bad design
+{
+	string temp;
+	
+	temp = s2 + s1 + s2;
+	// unsafe to return reference to local varaible
+	return temp;
+}
+#endif
+
+// Another Object Lesson: Objects, Inheritance, and References
+#if 0				// Listing 8.8 filefunc.cpp
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+using namespace std;
+
+void file_it(ostream & os, double fo, const double fe[], int n);
+const int LIMIT = 5;
+int main()
+{
+	ofstream fout;
+	const char * fn = "ep-data.txt";
+	fout.open(fn);
+	
+	if (!fout.is_open())
+	{
+		cout << "Can't open " << fn << ". Bye.\n";
+		exit(EXIT_FAILURE);
+	}
+	
+	double objective;
+	cout << "Enter the focal length of your telescope objective in mm: ";
+	cin >> objective;
+	
+	double eps[LIMIT];
+	cout << "Enter the focal lengths, in mm, of " << LIMIT << " eyepieces:\n";
+	for (int i = 0; i < LIMIT; i++)
+	{
+		cout << "Eyepiece #" << i + 1 << ": ";
+		cin >> eps[i];
+	}
+	file_it(fout, objective, eps, LIMIT);
+	file_it(cout, objective, eps, LIMIT);
+	cout << "Done\n";
+	return 0;
+}
+
+void file_it(ostream & os, double fo, const double fe[], int n)
+{
+	ios_base::fmtflags initial;
+	initial = os.setf(ios_base::fixed);			// save initial formatting state
+	os.precision(0);
+	os << "Focal length of objective: " << fo << " mm\n";
+	os.setf(ios::showpoint);			// set various formatting states.
+															// fixed decimal-point notation.
+	os.precision(1);
+	
+	os.width(12);
+	os << "f.l. eyepiece";
+	os.width(15);
+	os << "magnification" << endl;
+	for (int i = 0; i < n; i++)
+	{
+		os.width(12);
+		os << fe[i];
+		os.width(15);
+		os << int (fo/fe[i] + 0.5) << endl;	
+	}
+	os.setf(initial);				// restore initial formatting state
+}
+#endif
+
+/* A function uses passed data without modifying it:
+	- If the data object is small(i.g. a built-in data type or a small structure), =>pass it by value.
+	- If the data object is an array
+	=>use a pointer. Make the pointer to pointer to const.
+	- If the data object is a good-sized structure
+	=> use a const pointer of a const reference. Make the pointer or reference const.
+	- If the data object is a class object,
+	=> use a const reference. the standard way to pass class object arguments is by reference.
+	
+A function modifies data in the calling function:
+	- If the data object is a built-in data type
+	=> use a pointer.
+	- If the data object is an array
+	=> use your only choise: a pointer
+	- If the data is a structure
+	=> use a reference or a pointer.
+	- If the data object is a class object
+	=> use a reference	
+*/
+// 409 pg
