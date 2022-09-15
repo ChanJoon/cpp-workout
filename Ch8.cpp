@@ -656,3 +656,99 @@ void Show(job &j)
 	Implicit instantiations, explicit instantiations, and explicit specializations collectively are termed specializations.
 */
 // 430pg
+
+// A Partial Ordering Rules Example
+#if 0			// Listing 8.14		tempover.cpp
+#include <iostream>
+
+template <typename T>
+void ShowArray(T arr[], int n);
+
+template <typename T>
+void ShowArray(T * arr[], int n);
+
+struct debts
+{
+	char name[50];
+	double amount;
+};
+
+int main()
+{
+	using namespace std;
+	int things[6] = {13, 31, 103, 301, 310, 130};
+	struct debts mr_E[3] =
+	{
+		{"Ima Wolfe", 2400.0},
+		{"Ura Foxe", 1300.0},
+		{"Iby Stout", 1800.0}
+	};
+	double * pd[3];
+	
+	// set pointers to the amount members of the structures in mr_E
+	for (int i = 0; i < 3; i++)
+		pd[i] = &mr_E[i].amount;
+	
+	cout << "Listing Mr. E's counts of things:\n";
+	// things is an array of int
+	ShowArray(things, 6);		// uses template A
+	cout << "Listing Mr.E's debts:\n";
+	// pd is an array of pointers to double
+	ShowArray(pd, 3);
+	return 0;
+}
+
+template <typename T>
+void ShowArray(T arr[], int n)
+{
+	using namespace std;
+	cout << "template A\n";
+	for (int i = 0; i < n; i++)
+		cout << arr[i] << ' ';
+	cout << endl;
+}
+
+template <typename T>
+void ShowArray(T * arr[], int n)
+{
+	using namespace std;
+	cout << "template B\n";
+	for (int i = 0; i < n; i++)
+		cout << *arr[i] << ' ';
+	cout << endl;
+}
+#endif
+
+// Making Your Own Choices
+#if 0// Listing 8.15		choices.cpp
+#include <iostream>
+
+template<class T>		// or template <typename T>
+T lesser(T a, T b)			// #1
+{
+	return a < b ? a : b;
+}
+
+int lesser (int a, int b)	// #2
+{
+	a = a < 0? -a : a;
+	b = b < 0? -b : b;
+	return a < b ? a : b;
+}
+
+int main()
+{
+	using namespace std;
+	int m = 20;
+	int n = -30;
+	double x = 15.5;
+	double y = 25.9;
+	
+	cout << lesser(m, n) << endl;
+	cout << lesser(x, y) << endl;
+	cout << lesser<>(m, n) << endl;
+	cout << lesser<int>(x, y) << endl;
+	
+	return 0;
+}
+#endif
