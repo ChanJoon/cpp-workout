@@ -41,7 +41,7 @@ void show_polar(polar dapos);
 
 #endif
 
-// Listing 9.2	file1.cpp
+#if 0 // Listing 9.2	file1.cpp
 #include <iostream>
 #include "coordin.h"
 using namespace std;
@@ -60,8 +60,9 @@ int main()
 	cout << "Bye!\n";
 	return 0;
 }
+#endif
 
-// Listing 9.3	file2.cpp
+#if 0		// Listing 9.3	file2.cpp
 #include <iostream>
 #include <cmath>
 #include "coordin.h"
@@ -87,6 +88,7 @@ void show_polar (polar dapos)
 	cout << ", angle = " << dapos.angle * Rad_to_deg;
 	cout << " degress\n";
 }
+#endif
 
 
 /* In Terminal,
@@ -102,3 +104,217 @@ void show_polar (polar dapos)
 */
 
 // 459pg
+
+/* Static Duration Variables
+	external linkage; accessible across files
+	internal linkage; accessible to functions within a single file
+	no linkage; accessible to just one function or to one block within a function
+*/
+
+/* Initializing Static Variables
+	zero-initialized
+	constant expression initialization
+	dynamic initialization
+	
+	#include <cmath>
+	int x;
+	int y = 5;
+	long z = 13 * 13;
+	const double pi = 4.0 * atan(1.0);
+	
+	The One Definition Rule
+	// file01.cpp
+	extern int cats = 20;
+	int dogs = 22;
+	int fleas;
+	...
+	// file02.cpp
+	// use cats and dogs from file01.cpp
+	extern int cats;
+	extern int dogs;
+	...
+	// file98.cpp
+	// use cats, dogs, and fleas from file01.cpp
+	extern int cats;
+	extern int dogs;
+	extern int fleas;
+*/
+
+#if 0			// Listing 9.5	external.cpp
+// compile with supoort.cpp
+#include <iostream>
+using namespace std;
+
+// external variable
+double warming = 0.3;
+// function prototype
+void update(double dt);
+void local();
+
+int main()
+{
+	cout << "Global warming is " << warming << " degress.\n";
+	update(0.1);
+	cout << "Global warming is " << warming << " degrees.\n";
+	local();
+	cout << "Global warming is " << warming << " degrees.\n";
+	return 0;
+}
+
+// Listing 9.6	support.cpp
+// compile with external.cpp
+#include <iostream>
+extern double warming;
+
+// function prototype
+void update(double dt);
+void local();
+
+using std::cout;
+void update(double dt)
+{
+	extern double warming;
+	warming += dt;
+	cout << "Updating global warming to " << warming;
+	cout << " degress.\n";
+}
+
+void local()
+{
+	double warming = 0.8;
+	
+	cout << "Local warming = " << warming << " degrees.\n";
+	cout << "But global warming = " << ::warming;		// scope-resolution operator
+	cout << " degress.\n";
+}
+#endif
+
+/*
+> g++ external1.cpp support.cpp -o extern1
+> .\extern1.exe
+	Global warming is 0.3 degress.
+	Updating global warming to 0.4 degress.
+	Global warming is 0.4 degrees.
+	Local warming = 0.8 degrees.
+	But global warming = 0.4 degress.
+	Global warming is 0.4 degrees.
+*/
+// 470pg
+
+// Static Storage Duration, No Linkage
+#if 0			// Listing 9.9 static.cpp
+#include <iostream>
+// constants
+const int ArSize = 10;
+
+// function prototype
+void strcount(const char * str);
+
+int main()
+{
+	using namespace std;
+	char input[ArSize];
+	char next;
+	
+	cout << "Enter a line:\n";
+	cin.get(input, ArSize);
+	while (cin)
+	{
+		cin.get(next);
+		while(next != '\n')	// while string didn't fit
+			cin.get(next);			// dispose of remainder
+		strcount(input);
+		
+		cout << "Enter next line (empty line to quit):\n";
+		cin.get(input, ArSize);
+	}
+	cout << "End\n";
+	return 0;
+}
+
+void strcount(const char * str)
+{
+	using namespace std;
+	static int total = 0;
+	int count = 0;
+	
+	cout << "\"" << str << "\" contains ";
+	while (*str++)
+		count++;
+	total += count;
+	cout << count << " characters\n";
+	cout << total << " characters total\n";
+}
+#endif
+
+/* Initialization with the new Operator C++11
+
+The new standard allows the following; using braces
+	struct where {double x; double y; double z;};
+	where * one = new where {2.5, 5.3, 7.2};
+	int * ar = new int [4] {2,4,6,7};
+also can for sigle-valued variables:
+	int *pin = new int {};
+	double * pdo = new double {99.99};
+*/
+
+// The Placement new Operator
+#if 0			// Listing 9.10	newplace.cpp
+#include <iostream>
+#include <new>
+const int BUF = 512;
+const int N = 5;
+char buffer[BUF];		// chunk of memory
+
+int main()
+{
+	using namespace std;
+	double *pd1, *pd2;
+	int i;
+	cout << "Calling new and placement new:\n";
+	
+	pd1 = new double[N];					// use heap
+	pd2 = new (buffer) double[N];	// use buffer array
+	for (i = 0; i < N; i++)
+		pd2[i] = pd1[i] = 1000 + 20.0 * i;
+	cout << "Memory addresses:\n" << " heap : " << pd1 << " static: " << (void *) buffer << endl;
+	cout << "Memory contents: \n";
+	for(i = 0; i < N; i++)
+	{
+		cout << pd1[i] << " at " << &pd1[i] << "; ";
+		cout << pd2[i] << " at " << &pd2[i] << endl;
+	}
+	
+	cout << "\nCalling new and placement new a second time:\n";
+	double *pd3, *pd4;
+	pd3 = new double[N];					// fine new address
+	pd4 = new (buffer) double[N];	// overwrite old data
+	for (i = 0; i < N; i++)
+		pd4[i] = pd3[i] = 1000 + 40.0 * i;
+	cout << "Memory contents: \n";
+	for(i = 0; i < N; i++)
+	{
+		cout << pd3[i] << " at " << &pd3[i] << "; ";
+		cout << pd4[i] << " at " << &pd4[i] << endl;
+	}
+	
+	cout << "\nCalling new and placement new a third time:\n";
+	delete [] pd1;
+	
+	pd1= new double[N];
+	pd2 = new (buffer + N * sizeof(double)) double[N];
+	for (i = 0; i < N; i++)
+		pd2[i] = pd1[i] = 1000 + 60.0 * i;
+	cout << "Memory contents:\n";
+	for (i = 0; i < N; i++)
+	{
+	cout << pd1[i] << " at " << &pd1[i] << "; ";
+	cout << pd2[i] << " at " << &pd2[i] << endl;
+	}
+	
+	delete [] pd1;
+	delete [] pd3;
+	return 0;
+}
+#endif
+// 481pg
