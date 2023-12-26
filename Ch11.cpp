@@ -62,3 +62,12 @@ ostream & operator<< (ostream & os, const Time & t)
 
 #endif
 //584pg
+
+// Also, checkout mytime3.h mytime.cpp
+
+#if 0
+Overloaded Operators: Member Versus Nonmember Functions
+More Overloading: A Vector Class
+	- checkout vect.h vect.cpp
+#endif
+// 606pg
